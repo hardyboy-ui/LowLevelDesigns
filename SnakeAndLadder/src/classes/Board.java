@@ -1,4 +1,5 @@
 package classes;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Board {
 	Cell[][] cells;
@@ -25,8 +26,9 @@ public class Board {
 	{
 		while(snakes!=0)
 		{
-			int snakeHead=getRandomNumber(0,size*size-1);
-			int snakeTail=getRandomNumber(0,size*size-1);
+			int maxi=size*size;
+			int snakeHead=ThreadLocalRandom.current().nextInt(0,maxi);
+			int snakeTail=ThreadLocalRandom.current().nextInt(0,maxi);
 			if(snakeHead>snakeTail && findCell(snakeHead).jump==null)
 			{
 				findCell(snakeHead).jump=new Jump(snakeHead,snakeTail);
@@ -38,8 +40,9 @@ public class Board {
 	{
 		while(ladders!=0)
 		{
-			int ladderStart=getRandomNumber(0,size*size-1);
-			int ladderEnd=getRandomNumber(0,size*size-1);
+			int maxi=size*size;
+			int ladderStart=ThreadLocalRandom.current().nextInt(0,maxi);
+			int ladderEnd=ThreadLocalRandom.current().nextInt(0,maxi);
 			if(ladderStart<ladderEnd && findCell(ladderStart).jump==null)
 			{
 				findCell(ladderStart).jump=new Jump(ladderStart,ladderEnd);
@@ -49,9 +52,6 @@ public class Board {
 	}
 	public Cell findCell(int number)
 	{
-		return cells[number/10][number%10];
-	}
-	private int getRandomNumber(int min, int max) {
-	    return (int) ((Math.random() * (max - min)) + min);
+		return cells[number/size][number%size];
 	}
 }
